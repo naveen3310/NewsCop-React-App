@@ -1,15 +1,24 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 export class Navbar extends Component {
+  addClass = (e) => {
+    const activeEle = document.querySelector(".active");
+    activeEle.classList.remove("active");
+    e.target.classList.add("active");
+  };
+
   render() {
     return (
       <div>
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
           <div className="container-fluid">
-            <a className="navbar-brand text-primary " href="/">
-              <small>LIVE IN THE MOMENT</small>{" "}
-              <strong className="text-success">NEWS</strong>
-            </a>
+            <Link className="navbar-brand text-warning" to="/">
+              <small>NEWS</small>
+              <strong className="mx-1 rounded text-white bg-primary">
+                COP
+              </strong>
+            </Link>
             <button
               className="navbar-toggler"
               type="button"
@@ -26,10 +35,53 @@ export class Navbar extends Component {
               id="navbarSupportedContent"
             >
               <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                <li className="nav-item">
-                  <a className="nav-link active" aria-current="page" href="/">
+                <li className="nav-item" onClick={this.addClass}>
+                  <Link className="nav-link active" aria-current="page" to="/">
                     Home
-                  </a>
+                  </Link>
+                </li>
+
+                <li className="nav-item" onClick={this.addClass}>
+                  <Link
+                    className="nav-link "
+                    aria-current="page"
+                    to="/business"
+                  >
+                    Business
+                  </Link>
+                </li>
+                <li className="nav-item" onClick={this.addClass}>
+                  <Link
+                    className="nav-link "
+                    aria-current="page"
+                    to="/entertainment"
+                  >
+                    Entertainment
+                  </Link>
+                </li>
+                <li className="nav-item" onClick={this.addClass}>
+                  <Link className="nav-link " aria-current="page" to="/health">
+                    Health
+                  </Link>
+                </li>
+                <li className="nav-item" onClick={this.addClass}>
+                  <Link className="nav-link " aria-current="page" to="/science">
+                    Science
+                  </Link>
+                </li>
+                <li className="nav-item" onClick={this.addClass}>
+                  <Link className="nav-link " aria-current="page" to="/sports">
+                    Sports
+                  </Link>
+                </li>
+                <li className="nav-item" onClick={this.addClass}>
+                  <Link
+                    className="nav-link "
+                    aria-current="page"
+                    to="/technology"
+                  >
+                    Technology
+                  </Link>
                 </li>
               </ul>
               <form className="d-flex">
@@ -39,7 +91,7 @@ export class Navbar extends Component {
                   placeholder="Search"
                   aria-label="Search"
                 />
-                <button className="btn btn-outline-success" type="submit">
+                <button className="btn btn-outline-warning" type="submit">
                   Search
                 </button>
               </form>
