@@ -6,11 +6,22 @@ import News from "./components/News";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 
 export default class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      searchResultValue: "",
+    };
+  }
+  searchResultHandle = (handle) => {
+    console.log("this search is from app");
+    console.log("this is app and result is : " + handle);
+    this.setState({ searchResultValue: handle });
+  };
   render() {
     return (
       <div>
         <BrowserRouter>
-          <Navbar />
+          <Navbar getSearch={this.searchResultHandle} />
           <Routes>
             <Route
               exact
@@ -19,6 +30,7 @@ export default class App extends Component {
                 <News
                   key="general"
                   category="general"
+                  searchThis={this.state.searchResultValue}
                   subTitle="Trending News"
                 />
               }
@@ -30,6 +42,7 @@ export default class App extends Component {
                 <News
                   key="business"
                   category="business"
+                  searchThis={this.state.searchResultValue}
                   subTitle="Business News"
                 />
               }
@@ -41,6 +54,7 @@ export default class App extends Component {
                 <News
                   key="enterainment"
                   category="entertainment"
+                  searchThis={this.state.searchResultValue}
                   subTitle="Entertainment News"
                 />
               }
@@ -49,7 +63,12 @@ export default class App extends Component {
               exact
               path="/health"
               element={
-                <News key="health" category="health" subTitle="Health News" />
+                <News
+                  key="health"
+                  category="health"
+                  searchThis={this.state.searchResultValue}
+                  subTitle="Health News"
+                />
               }
             />
             <Route
@@ -59,6 +78,7 @@ export default class App extends Component {
                 <News
                   key="science"
                   category="science"
+                  searchThis={this.state.searchResultValue}
                   subTitle="Science News"
                 />
               }
@@ -67,7 +87,12 @@ export default class App extends Component {
               exact
               path="/sports"
               element={
-                <News key="sports" category="sports" subTitle="Sports News" />
+                <News
+                  key="sports"
+                  category="sports"
+                  searchThis={this.state.searchResultValue}
+                  subTitle="Sports News"
+                />
               }
             />
             <Route
@@ -77,6 +102,7 @@ export default class App extends Component {
                 <News
                   key="technology"
                   category="technology"
+                  searchThis={this.state.searchResultValue}
                   subTitle="Technology News"
                 />
               }

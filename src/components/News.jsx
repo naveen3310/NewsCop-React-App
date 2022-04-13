@@ -5,23 +5,39 @@ import URLImage from "./defaultImageURL";
 import { Spinner } from "./spinner";
 
 class News extends Component {
-  constructor() {
-    super();
+  capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+  constructor(props) {
+    super(props);
+
     this.state = {
       articles: [],
+      parsedDataOfApi: 0,
       loading: false,
       page: 1,
+      totalResults: 0,
     };
+    document.title = this.capitalizeFirstLetter(this.props.category);
   }
+
   async componentDidMount() {
     this.setState({ loading: true });
-    let URL = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=2a8cd9e807b04f53b310e84a709a63ff&page=1&pageSize=12`;
+    let URL = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=2a8cd9e807b04f53b310e84a709a63ff&${this.state.page}&pageSize=12`;
     let data = await fetch(URL);
     let parsedData = await data.json();
-    this.setState({ articles: parsedData.articles, loading: false });
+    this.setState({
+      parsedDataOfApi: parsedData,
+      articles: parsedData.articles,
+      loading: false,
+    });
+    console.log(parsedData.totalResults);
   }
   handleNextClick = async () => {
-    if (this.state.page + 1 > Math.ceil(this.state.totalResults / 12)) {
+    if (
+      this.state.page + 1 >
+      Math.ceil(this.state.parsedDataOfApi.totalResults / 12)
+    ) {
     } else {
       this.setState({ loading: true });
       let URL = `https://newsapi.org/v2/top-headlines?country=in&category=${
@@ -34,9 +50,10 @@ class News extends Component {
       this.setState({
         articles: parsedData.articles,
         page: this.state.page + 1,
-        totalResults: parsedData.articles,
         loading: false,
       });
+      console.log(this.state.page);
+      console.log(this.state.totalResults);
     }
   };
   handlePreviousClick = async () => {
@@ -51,7 +68,6 @@ class News extends Component {
     this.setState({
       articles: parsedData.articles,
       page: this.state.page - 1,
-      totalResults: parsedData.articles,
       loading: false,
     });
   };
@@ -76,6 +92,9 @@ class News extends Component {
                           ? element.description.slice(0, 90)
                           : ""
                       }
+                      author={element.author}
+                      publishTime={element.publishedAt}
+                      source={element.source.name}
                       imageURL={
                         element.urlToImage ? element.urlToImage : URLImage.image
                       }
@@ -97,7 +116,8 @@ class News extends Component {
             <button
               onClick={this.handleNextClick}
               disabled={
-                this.state.page + 1 > Math.ceil(this.state.totalResults / 12)
+                this.state.page + 1 >
+                Math.ceil(this.state.parsedDataOfApi.totalResults / 12)
               }
               type="button"
               className="btn btn-dark"

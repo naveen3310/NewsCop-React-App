@@ -2,6 +2,18 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
 export class Navbar extends Component {
+  constructor() {
+    super();
+    this.state = {
+      search: "",
+    };
+  }
+
+  searchHandle = (e) => {
+    this.setState({ search: e.target.value });
+    console.log(e.target.value);
+  };
+
   addClass = (e) => {
     const activeEle = document.querySelector(".active");
     activeEle.classList.remove("active");
@@ -9,6 +21,12 @@ export class Navbar extends Component {
   };
 
   render() {
+    let { getSearch } = this.props;
+    let searchResult = (e) => {
+      e.preventDefault();
+      console.log(this.state.search);
+      getSearch(this.state.search);
+    };
     return (
       <div>
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -86,12 +104,17 @@ export class Navbar extends Component {
               </ul>
               <form className="d-flex">
                 <input
+                  onChange={this.searchHandle}
                   className="form-control me-2"
                   type="search"
                   placeholder="Search"
                   aria-label="Search"
                 />
-                <button className="btn btn-outline-warning" type="submit">
+                <button
+                  onClick={searchResult}
+                  className="btn btn-outline-warning"
+                  type="submit"
+                >
                   Search
                 </button>
               </form>
